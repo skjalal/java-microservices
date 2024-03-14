@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: service-registry
+  profiles:
+    active: dev
+server:
+  shutdown: graceful

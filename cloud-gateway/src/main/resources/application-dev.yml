@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes-map:
+          school-route:
+            id: school-service
+            uri: lb://school-service
+            predicates:
+              - Path=/school/**
+          student-route:
+            id: student-service
+            uri: lb://student-service
+            predicates:
+              - Path=/student/**
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost

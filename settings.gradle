@@ -1,0 +1,12 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version SPRING_BOOT_VERSION
+        id 'io.spring.dependency-management' version SPRING_IO_VERSION
+    }
+}
+rootProject.name = 'java-microservices'
+include 'school-service'
+include 'student-service'
+include 'common-data'
+include 'service-registry'
+include 'cloud-gateway'

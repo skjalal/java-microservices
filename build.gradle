@@ -1,0 +1,61 @@
+plugins {
+    id 'org.springframework.boot' apply false
+    id 'io.spring.dependency-management'
+}
+
+group = GROUP_ID
+version = ARTIFACT_VERSION
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    group = GROUP_ID
+    version = ARTIFACT_VERSION
+    java {
+        sourceCompatibility = JAVA_VERSION
+        withSourcesJar()
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation "org.mapstruct:mapstruct:${MAPSTRUCT_VERSION}"
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor "org.mapstruct:mapstruct-processor:${MAPSTRUCT_VERSION}"
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${SPRING_CLOUD_VERSION}"
+        }
+    }
+
+    tasks.named('compileJava') {
+        options.compilerArgs = [
+                '-Amapstruct.defaultComponentModel=spring',
+                '-Amapstruct.unmappedTargetPolicy=IGNORE'
+        ]
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+project(":common-data"){
+    tasks.bootJar{ enabled = false }
+}

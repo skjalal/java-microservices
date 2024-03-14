@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: student-service
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+server:
+  port: 9992
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
